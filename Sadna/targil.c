@@ -20,6 +20,11 @@ unsigned int * powerArray(int num);
 
 /* ------------------------------- */
 
+typedef struct test
+{
+	int data;
+}Test;
+
 int main()
 {
 	int select = 0, i, all_Ex_in_loop = 0;
