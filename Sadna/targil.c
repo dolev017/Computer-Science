@@ -6,16 +6,11 @@
 #include <string.h>
 
 /* Structs */
-typedef struct test
+typedef struct list
 {
 	int data;
-}Test;
-
-typedef struct node
-{
-	int data;
-	struct node *next;
-}Node;
+	struct list* next;
+}List;
 
 typedef struct char_node
 {
@@ -36,9 +31,6 @@ void Ex7();
 /* Declarations of other functions */
 
 unsigned int * powerArray(int num);
-Node * createNode(int);
-Node * addToFirst(Node *, int);
-Node * addToLast(Node *, int);
 Char_Node * createCharNode(char);
 Char_Node * addCharToFirst(Char_Node *, char);
 Char_Node * addCharToLast(Char_Node *, char);
@@ -50,6 +42,12 @@ void insertValue(int**, int, int);
 void printMatrix(int**, int, int);
 void neighborMaxMin(int**, int*, int*, int, int, int, int);
 int** matrixMaxNeighbor(int**, int, int);
+List* addnewnode(int data);
+List* insert(List* head, int data);
+List* makelist(List* head);
+void printlist(List* head);
+void deleteNode(List** head);
+List* creatlist(List** head);
 /* ------------------------------- */
 
 
@@ -122,15 +120,28 @@ void Ex2()
 }
 void Ex3()
 {
-
+	
 }
 void Ex4()
 {
+	List* likedlist;
+	List* newlikedlist;
+	likedlist = NULL;
 
+	likedlist = makelist(likedlist);
+	printf("The original list is:\n");
+	printlist(likedlist);
+	printf("\n");
+	newlikedlist = creatlist(&likedlist);
+	printf("The new list is:\n");
+	printlist(newlikedlist);
+	printf("\n");
+	printf("The old list is:\n");
+	printlist(likedlist);
 }
 void Ex5()
 {
-
+	
 }
 void Ex6()
 {
@@ -179,35 +190,6 @@ unsigned int * powerArray(int num)
 		arr[i] = pow(2.0, i % 32);
 	}
 	return arr;
-}
-
-Node * createNode(int data)
-{
-	Node *temp = (Node *)malloc(sizeof(Node));
-	if (temp == NULL)
-		return;
-	temp->data = data;
-	temp->next = NULL;
-	return temp;
-}
-
-Node * addToFirst(Node * head, int data)
-{
-	Node *temp = createNode(data);
-	temp->next = head;
-	return temp;
-}
-
-Node * addToLast(Node *head, int data)
-{
-	Node *temp = createNode(data);
-	Node *p = head;
-	if (head == NULL)
-		return temp;
-	while (p->next != NULL)
-		p = p->next;
-	p->next = temp;
-	return head;
 }
 
 Char_Node * createCharNode(char data)
@@ -404,4 +386,166 @@ int** matrixMaxNeighbor(int** a, int r, int c)
 			matrixB[i][j] = max;
 		}
 	return matrixB;
+}
+
+List* addnewnode(int data)
+{
+	List* newnode = (List*)malloc(sizeof(List));
+	newnode->data = data;
+	newnode->next = NULL;
+
+	return newnode;
+}
+
+List* insert(List* head, int data)
+{
+	List* newnode = addnewnode(data);
+	List* curr = head;
+	if (head == NULL)
+	{
+		//list is empty.
+		head = newnode;
+	}
+	else
+	{
+		while (curr->next != NULL)
+		{
+			curr = curr->next;
+		}
+		curr->next = newnode;
+	}
+	return head;
+}
+
+List* makelist(List* head)
+{
+	int number;
+	printf("Enter a number, to stop enter -1\n");
+	scanf_s("%d", &number);
+	while (number != (-1))
+	{
+		head = insert(head, number);
+		printf("Enter a number, to stop enter -1\n");
+		scanf_s("%d", &number);
+	}
+	return head;
+}
+
+void printlist(List* head)
+{
+	List* curr;
+	curr = head;
+
+	if (head == NULL)
+		printf("Thelist is empty!\n");
+
+	else
+	{
+		while (curr != NULL)
+		{
+			printf("%d\t", curr->data);
+			curr = curr->next;
+		}
+	}
+}
+
+void deleteNode(List** head)
+{
+	List* curr;
+	List* delnode;
+
+	curr = *head;
+	if (*head == NULL)
+	{
+		printf("Nothing to delete,the list is empty!!\n");
+	}
+	else if (curr->next == NULL)
+	{
+		//only one element in the list.
+		delnode = curr;
+		*head = NULL;
+		free(delnode);
+	}
+	else
+	{
+		while ((curr->next)->next != NULL)
+		{
+			curr = curr->next;
+		}
+		delnode = curr->next;
+		curr->next = curr->next->next;
+		free(delnode);
+	}
+}
+
+List* creatlist(List** head)
+{
+	List* curr;
+	List* newlist;
+	List* temp;
+
+	newlist = NULL;
+
+	curr = *head;
+
+	if (curr == NULL)//empty list
+	{
+		return newlist;
+	}
+
+	if (curr->next == NULL)// one element in the list
+	{
+		newlist = insert(newlist, curr->data);
+		*head = NULL;
+
+		deleteNode(&curr);
+		return newlist;
+	}
+
+	if (curr->data > curr->next->data)// the first element in the list is beger then the secend element
+	{
+		newlist = insert(newlist, curr->data);
+		temp = curr;
+		*head = curr->next;
+		temp->next = NULL;
+		deleteNode(&temp);
+		curr = *head;
+	}
+
+	while (curr->next)
+	{
+		temp = curr;
+		if (temp->next->next != NULL)
+		{
+			if (curr->data < curr->next->data)
+			{
+				temp = temp->next;
+				if (temp->data > temp->next->data)
+				{
+					curr->next = temp->next;
+					newlist = insert(newlist, temp->data);
+					curr = temp->next;
+					temp->next = NULL;
+					deleteNode(&temp);
+				}
+				else
+					curr = curr->next;
+			}
+			else
+				curr = curr->next;
+		}
+		else
+		{
+			if (curr->data < curr->next->data)// last element is biger the the prev element
+			{
+				temp = curr;
+				temp = temp->next;
+				newlist = insert(newlist, temp->data);
+				temp->next = NULL;
+				deleteNode(&temp);
+				curr->next = NULL;
+			}
+		}
+	}
+	return newlist;
 }

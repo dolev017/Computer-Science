@@ -1,19 +1,20 @@
 ﻿  targil.c
-c:\users\user\desktop\sadna\sadna\targil.c(125): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\user\desktop\sadna\sadna\targil.c(125): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\user\desktop\sadna\sadna\targil.c(125): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\user\desktop\sadna\sadna\targil.c(125): note: this argument is used as a buffer size
-c:\users\user\desktop\sadna\sadna\targil.c(131): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\user\desktop\sadna\sadna\targil.c(131): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\user\desktop\sadna\sadna\targil.c(131): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\user\desktop\sadna\sadna\targil.c(131): note: this argument is used as a buffer size
-c:\users\user\desktop\sadna\sadna\targil.c(152): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
-c:\users\user\desktop\sadna\sadna\targil.c(161): warning C4033: 'createNode' must return a value
-c:\users\user\desktop\sadna\sadna\targil.c(190): warning C4033: 'createCharNode' must return a value
-c:\users\user\desktop\sadna\sadna\targil.c(199): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
-c:\users\user\desktop\sadna\sadna\targil.c(210): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
-c:\users\user\desktop\sadna\sadna\targil.c(211): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
-c:\users\user\desktop\sadna\sadna\targil.c(265): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
-c:\users\user\desktop\sadna\sadna\targil.c(165): warning C4715: 'createNode': not all control paths return a value
-c:\users\user\desktop\sadna\sadna\targil.c(194): warning C4715: 'createCharNode': not all control paths return a value
+c:\users\user\desktop\sadna\sadna\targil.c(101): warning C4101: 'max': unreferenced local variable
+c:\users\user\desktop\sadna\sadna\targil.c(101): warning C4101: 'min': unreferenced local variable
+c:\users\user\desktop\sadna\sadna\targil.c(163): warning C4473: 'scanf_s' : not enough arguments passed for format string
+  c:\users\user\desktop\sadna\sadna\targil.c(163): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+  c:\users\user\desktop\sadna\sadna\targil.c(163): note: the missing variadic argument 2 is required by format string '%c'
+  c:\users\user\desktop\sadna\sadna\targil.c(163): note: this argument is used as a buffer size
+c:\users\user\desktop\sadna\sadna\targil.c(169): warning C4473: 'scanf_s' : not enough arguments passed for format string
+  c:\users\user\desktop\sadna\sadna\targil.c(169): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+  c:\users\user\desktop\sadna\sadna\targil.c(169): note: the missing variadic argument 2 is required by format string '%c'
+  c:\users\user\desktop\sadna\sadna\targil.c(169): note: this argument is used as a buffer size
+c:\users\user\desktop\sadna\sadna\targil.c(190): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\user\desktop\sadna\sadna\targil.c(199): warning C4033: 'createCharNode' must return a value
+c:\users\user\desktop\sadna\sadna\targil.c(208): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
+c:\users\user\desktop\sadna\sadna\targil.c(219): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
+c:\users\user\desktop\sadna\sadna\targil.c(220): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
+c:\users\user\desktop\sadna\sadna\targil.c(274): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
+c:\users\user\desktop\sadna\sadna\targil.c(293): warning C4047: '=': 'int **' differs in levels of indirection from 'int *'
+c:\users\user\desktop\sadna\sadna\targil.c(203): warning C4715: 'createCharNode': not all control paths return a value
   Sadna.vcxproj -> C:\Users\user\Desktop\Sadna\Debug\Sadna.exe
