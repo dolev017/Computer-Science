@@ -34,7 +34,7 @@ unsigned int * powerArray(int num);
 Char_Node * createCharNode(char);
 Char_Node * addCharToFirst(Char_Node *, char);
 Char_Node * addCharToLast(Char_Node *, char);
-void disassemblyList(Char_Node * list, Char_Node * list_LETTER, Char_Node * list_letter, Char_Node * list_num, Char_Node * list_char);
+void disassemblyList(Char_Node * list, Char_Node ** list_LETTER, Char_Node ** list_letter, Char_Node ** list_num, Char_Node ** list_char);
 void print_char_node(Char_Node *);
 void freeMatrix(int**, int);
 int** newMatrix(int, int);
@@ -48,6 +48,7 @@ List* makelist(List* head);
 void printlist(List* head);
 void deleteNode(List** head);
 List* creatlist(List** head);
+//List* creatList2(List ** head);
 /* ------------------------------- */
 
 
@@ -141,7 +142,19 @@ void Ex4()
 }
 void Ex5()
 {
-	
+	//List * list = NULL;
+	//List * new_list;
+	//list = makelist(list);
+	//printf("The original list is:\n");
+	//printlist(list);
+	//printf("\n");
+	//new_list = creatlist2(&list);
+	//printf("The new list is:\n");
+	//printlist(new_list);
+	//printf("\n");
+	//printf("The old list is:\n");
+	//printlist(list);
+
 }
 void Ex6()
 {
@@ -156,7 +169,7 @@ void Ex7()
 	rewind(stdin);
 	Char_Node * list = NULL;
 	Char_Node * list_LETTER = NULL;
-	Char_Node * list_letter = NULL;
+	Char_Node * list_letter= NULL;
 	Char_Node * list_num = NULL;
 	Char_Node * list_char = NULL;
 	printf("Enter a char: ");
@@ -170,7 +183,7 @@ void Ex7()
 		rewind(stdin);
 		list = addCharToLast(list, data);
 	}
-	disassemblyList(list,list_LETTER,list_letter,list_num,list_char);
+	disassemblyList(list,&list_LETTER,&list_letter,&list_num,&list_char);
 	print_char_node(list_LETTER);
 	print_char_node(list_letter);
 	print_char_node(list_num);
@@ -209,7 +222,7 @@ Char_Node * addCharToFirst(Char_Node * head, char data)
 	return temp;
 }
 
-Char_Node * addCharToLast(Char_Node *head, char data)
+Char_Node * addCharToLast(Char_Node * head, char data)
 {
 	Char_Node *temp = createCharNode(data);
 	Char_Node *p = head;
@@ -221,58 +234,98 @@ Char_Node * addCharToLast(Char_Node *head, char data)
 	return head;
 }
 
-void disassemblyList(Char_Node * list, Char_Node * list_LETTER, Char_Node * list_letter, Char_Node * list_num, Char_Node * list_char)
+void disassemblyList(Char_Node * list, Char_Node ** list_LETTER, Char_Node ** list_letter, Char_Node ** list_num, Char_Node ** list_char)
 {
 	char data;
 	while (list->next != NULL)
 	{
 		data = list->data;
 		if(data>='A' && data<='Z')
-			if (list_LETTER != NULL)
+			if (*list_LETTER == NULL)
 			{
-				list_LETTER=createCharNode(data);
+				*list_LETTER=createCharNode(data);
 			}
 			else
 			{
-				list_LETTER=addCharToLast(list_LETTER, data);
+				*list_LETTER=addCharToLast(*list_LETTER, data);
 			}
 		if (data >= 'a' && data <= 'z')
-			if (list_letter != NULL)
+			if (*list_letter == NULL)
 			{
-				list_letter= createCharNode(data);
+				*list_letter= createCharNode(data);
 			}
 			else
 			{
-				list_letter=addCharToLast(list_letter, data);
+				*list_letter=addCharToLast(*list_letter, data);
 			}
 		if (data >= '0' && data <= '9')
-			if (list_num != NULL)
+			if (*list_num == NULL)
 			{
-				list_num= createCharNode(data);
+				*list_num= createCharNode(data);
 			}
 			else
 			{
-				list_num=addCharToLast(list_num, data);
+				*list_num=addCharToLast(*list_num, data);
 			}
 		if ((data >= ' ' && data <= '/') || (data>='[' && data<='`') || (data>='{' && data))
-			if (list_char != NULL)
+			if (*list_char == NULL)
 			{
-				list_char= createCharNode(data);
+				*list_char= createCharNode(data);
 			}
 			else
 			{
-				list_char=addCharToLast(list_char, data);
+				*list_char=addCharToLast(*list_char, data);
 			}
+		list = list->next;
 	}
+	data = list->data;
+	if (data >= 'A' && data <= 'Z')
+		if (*list_LETTER == NULL)
+		{
+			*list_LETTER = createCharNode(data);
+		}
+		else
+		{
+			*list_LETTER = addCharToLast(*list_LETTER, data);
+		}
+	if (data >= 'a' && data <= 'z')
+		if (*list_letter == NULL)
+		{
+			*list_letter = createCharNode(data);
+		}
+		else
+		{
+			*list_letter = addCharToLast(*list_letter, data);
+		}
+	if (data >= '0' && data <= '9')
+		if (*list_num == NULL)
+		{
+			*list_num = createCharNode(data);
+		}
+		else
+		{
+			*list_num = addCharToLast(*list_num, data);
+		}
+	if ((data >= ' ' && data <= '/') || (data >= '[' && data <= '`') || (data >= '{' && data))
+		if (*list_char == NULL)
+		{
+			*list_char = createCharNode(data);
+		}
+		else
+		{
+			*list_char = addCharToLast(*list_char, data);
+		}
 }
 
 void print_char_node(Char_Node * temp)
 {
+	Char_Node * list = temp;
 	while (temp->next != NULL)
 	{
 		printf("%c, ", temp->data);
 		temp = temp->next;
 	}
+	printf("%c, ", temp->data);
 	printf("\n");
 	printf("\n");
 }
@@ -549,3 +602,62 @@ List* creatlist(List** head)
 	}
 	return newlist;
 }
+//List * creatList2(List ** head)
+//{
+//	List * new_list = NULL;
+//	List * curr = *head;
+//	List * temp;
+//	if (curr == NULL)//empty list
+//	{
+//		return new_list;
+//	}
+//
+//	if (curr->next == NULL)// one element in the list
+//	{
+//		new_list = insert(new_list, curr->data);
+//		*head = NULL;
+//		return new_list;
+//	}
+//	if (curr->data > curr->next->data)
+//	{
+//		new_list = insert(new_list, curr->data);
+//		temp = curr;
+//		*head = curr->next;
+//		temp->next = NULL;
+//		curr = *head;
+//	}
+//	while (curr->next != NULL)
+//	{
+//		if (temp->next != NULL)
+//		{
+//			if (curr->data > curr->next->data)
+//			{
+//				if (temp->data > temp->next->data)
+//				{
+//					curr->next = temp->next;
+//					new_list = insert(new_list, temp->next);
+//					curr->next = temp;
+//				}
+//				else
+//				{
+//					curr = curr->next;
+//				}
+//			}
+//			else
+//			{
+//				curr = curr->next;
+//			}
+//		}
+//		else
+//		{
+//			if (curr->data < curr->next->data)
+//			{
+//				temp = curr;
+//				temp = temp->next;
+//				new_list = insert(new_list, temp->next);
+//				curr->next = NULL;
+//			}
+//		}
+//	}
+//	return new_list;
+//}
