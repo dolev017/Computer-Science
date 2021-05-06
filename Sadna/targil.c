@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
-#include<math.h>
+#include <math.h>
+#include <string.h>
 
 /* Structs */
 typedef struct test
@@ -41,6 +42,14 @@ Node * addToLast(Node *, int);
 Char_Node * createCharNode(char);
 Char_Node * addCharToFirst(Char_Node *, char);
 Char_Node * addCharToLast(Char_Node *, char);
+void disassemblyList(Char_Node * list, Char_Node * list_LETTER, Char_Node * list_letter, Char_Node * list_num, Char_Node * list_char);
+void print_char_node(Char_Node *);
+void freeMatrix(int**, int);
+int** newMatrix(int, int);
+void insertValue(int**, int, int);
+void printMatrix(int**, int, int);
+void neighborMaxMin(int**, int*, int*, int, int, int, int);
+int** matrixMaxNeighbor(int**, int, int);
 /* ------------------------------- */
 
 
@@ -89,7 +98,27 @@ void Ex1()
 }
 void Ex2()
 {
+	int** matrixA;
+	int** matrixB;
+	int rows, cols, max, min;
 
+	printf("Enter the number of rows you want:\n");
+	scanf_s("%d", &rows);
+	printf("Enter the number of collums you want:\n");
+	scanf_s("%d", &cols);
+
+	matrixA = newMatrix(rows, cols);
+
+	insertValue(matrixA, rows, cols);
+	printf("Value of matrixA\n");
+	printMatrix(matrixA, rows, cols);
+
+	matrixB = matrixMaxNeighbor(matrixA, rows, cols);
+	printf("Value of matrixB\n");
+	printMatrix(matrixB, rows, cols);
+
+	freeMatrix(matrixA, rows);
+	freeMatrix(matrixB, rows);
 }
 void Ex3()
 {
@@ -113,15 +142,28 @@ void Ex7()
 	char data;
 	printf("Enter a number of char: ");
 	scanf_s("%d", &num);
+	rewind(stdin);
 	Char_Node * list = NULL;
+	Char_Node * list_LETTER = NULL;
+	Char_Node * list_letter = NULL;
+	Char_Node * list_num = NULL;
+	Char_Node * list_char = NULL;
 	printf("Enter a char: ");
-	list = addCharToFirst(list, scanf_s("%c", &data));
+	scanf_s("%c", &data);
+	rewind(stdin);
+	list = createCharNode(data);
 	for (i = 0; i < num-1; i++)
 	{
 		printf("Enter a char: ");
-		list = addCharToLast(list, scanf_s("%c", &data));
+		scanf_s("%c", &data);
+		rewind(stdin);
+		list = addCharToLast(list, data);
 	}
-	disassemblyList(list);
+	disassemblyList(list,list_LETTER,list_letter,list_num,list_char);
+	print_char_node(list_LETTER);
+	print_char_node(list_letter);
+	print_char_node(list_num);
+	print_char_node(list_char);
 }
 /* ------------------- */
 
@@ -180,14 +222,14 @@ Char_Node * createCharNode(char data)
 
 Char_Node * addCharToFirst(Char_Node * head, char data)
 {
-	Char_Node *temp = createNode(data);
+	Char_Node *temp = createCharNode(data);
 	temp->next = head;
 	return temp;
 }
 
-Char_Node * addToLast(Char_Node *head, char data)
+Char_Node * addCharToLast(Char_Node *head, char data)
 {
-	Char_Node *temp = createNode(data);
+	Char_Node *temp = createCharNode(data);
 	Char_Node *p = head;
 	if (head == NULL)
 		return temp;
@@ -197,13 +239,169 @@ Char_Node * addToLast(Char_Node *head, char data)
 	return head;
 }
 
-void disassemblyList(Char_Node * list)
+void disassemblyList(Char_Node * list, Char_Node * list_LETTER, Char_Node * list_letter, Char_Node * list_num, Char_Node * list_char)
 {
+	char data;
 	while (list->next != NULL)
 	{
-		if (list->data >= 'a' || list->data <= 'z')
-		{
+		data = list->data;
+		if(data>='A' && data<='Z')
+			if (list_LETTER != NULL)
+			{
+				list_LETTER=createCharNode(data);
+			}
+			else
+			{
+				list_LETTER=addCharToLast(list_LETTER, data);
+			}
+		if (data >= 'a' && data <= 'z')
+			if (list_letter != NULL)
+			{
+				list_letter= createCharNode(data);
+			}
+			else
+			{
+				list_letter=addCharToLast(list_letter, data);
+			}
+		if (data >= '0' && data <= '9')
+			if (list_num != NULL)
+			{
+				list_num= createCharNode(data);
+			}
+			else
+			{
+				list_num=addCharToLast(list_num, data);
+			}
+		if ((data >= ' ' && data <= '/') || (data>='[' && data<='`') || (data>='{' && data))
+			if (list_char != NULL)
+			{
+				list_char= createCharNode(data);
+			}
+			else
+			{
+				list_char=addCharToLast(list_char, data);
+			}
+	}
+}
 
+void print_char_node(Char_Node * temp)
+{
+	while (temp->next != NULL)
+	{
+		printf("%c, ", temp->data);
+		temp = temp->next;
+	}
+	printf("\n");
+	printf("\n");
+}
+
+void freeMatrix(int** a, int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+		free(a[i]);
+	free(a);
+}
+
+int** newMatrix(int r, int c)
+{
+	int** a;
+	int i;
+
+	a = (int*)malloc(r * sizeof(int));
+	if (!a)
+		return NULL;
+
+	for (i = 0; i < r; i++)
+	{
+		a[i] = (int*)malloc(c * sizeof(int));
+		if (!a[i])
+		{
+			freeMatrix(a, i);
+			return NULL;
 		}
 	}
+	return a;
+}
+
+void insertValue(int** a, int r, int c)
+{
+	int i, j;
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			printf("Enter a value for [%d][%d]", i, j);
+			scanf_s("%d", &a[i][j]);
+		}
+	printf("\n\n");
+}
+
+void printMatrix(int** a, int r, int c)
+{
+	int i, j;
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			printf("[%d][%d]=%d\n\n", i, j, a[i][j]);
+		}
+}
+
+/* ------------------- */
+void neighborMaxMin(int** a, int* answerMax, int* answerMin, int i, int j, int lastRow, int lastCol)
+{
+	int min, max;
+	min = 0;
+	max = 0;
+
+	if (!(i == 0))
+	{
+		if (max < a[i - 1][j])
+			max = a[i - 1][j];
+		if (min > a[i - 1][j])
+			min = a[i - 1][j];
+	}
+
+	if (!(i == lastRow - 1))
+	{
+		if (max < a[i + 1][j])
+			max = a[i + 1][j];
+		if (min > a[i + 1][j])
+			min = a[i + 1][j];
+	}
+
+	if (!(j == 0))
+	{
+		if (max < a[i][j - 1])
+			max = a[i][j - 1];
+		if (min > a[i][j - 1])
+			min = a[i][j - 1];
+	}
+
+	if (!(j == lastCol - 1))
+	{
+		if (max < a[i][j + 1])
+			max = a[i][j + 1];
+		if (min > a[i][j + 1])
+			min = a[i][j + 1];
+	}
+
+	*answerMax = max;
+	*answerMin = min;
+}
+
+int** matrixMaxNeighbor(int** a, int r, int c)
+{
+	int** matrixB;
+	int i, j, max, min;
+
+	matrixB = newMatrix(r, c);
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			neighborMaxMin(a, &max, &min, i, j, r, c);
+			matrixB[i][j] = max;
+		}
+	return matrixB;
 }
