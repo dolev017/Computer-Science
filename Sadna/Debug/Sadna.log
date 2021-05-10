@@ -1,21 +1,40 @@
 ﻿  targil.c
-c:\users\user\desktop\sadna\sadna\targil.c(102): warning C4101: 'max': unreferenced local variable
-c:\users\user\desktop\sadna\sadna\targil.c(102): warning C4101: 'min': unreferenced local variable
-c:\users\user\desktop\sadna\sadna\targil.c(176): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\user\desktop\sadna\sadna\targil.c(176): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\user\desktop\sadna\sadna\targil.c(176): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\user\desktop\sadna\sadna\targil.c(176): note: this argument is used as a buffer size
-c:\users\user\desktop\sadna\sadna\targil.c(182): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\user\desktop\sadna\sadna\targil.c(182): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\user\desktop\sadna\sadna\targil.c(182): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\user\desktop\sadna\sadna\targil.c(182): note: this argument is used as a buffer size
-c:\users\user\desktop\sadna\sadna\targil.c(203): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
-c:\users\user\desktop\sadna\sadna\targil.c(212): warning C4033: 'createCharNode' must return a value
-c:\users\user\desktop\sadna\sadna\targil.c(221): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
-c:\users\user\desktop\sadna\sadna\targil.c(232): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
-c:\users\user\desktop\sadna\sadna\targil.c(233): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
-c:\users\user\desktop\sadna\sadna\targil.c(279): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
-c:\users\user\desktop\sadna\sadna\targil.c(326): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
-c:\users\user\desktop\sadna\sadna\targil.c(346): warning C4047: '=': 'int **' differs in levels of indirection from 'int *'
-c:\users\user\desktop\sadna\sadna\targil.c(216): warning C4715: 'createCharNode': not all control paths return a value
+c:\users\user\desktop\sadna\sadna\targil.c(123): warning C4101: 'max': unreferenced local variable
+c:\users\user\desktop\sadna\sadna\targil.c(123): warning C4101: 'min': unreferenced local variable
+c:\users\user\desktop\sadna\sadna\targil.c(169): warning C4133: 'function': incompatible types - from 'node *' to 'List *'
+c:\users\user\desktop\sadna\sadna\targil.c(147): warning C4101: 'max': unreferenced local variable
+c:\users\user\desktop\sadna\sadna\targil.c(147): warning C4101: 'min': unreferenced local variable
+c:\users\user\desktop\sadna\sadna\targil.c(221): warning C4047: 'function': 'List *' differs in levels of indirection from 'List **'
+c:\users\user\desktop\sadna\sadna\targil.c(221): warning C4024: 'insert': different types for formal and actual parameter 1
+c:\users\user\desktop\sadna\sadna\targil.c(224): warning C4047: 'function': 'List *' differs in levels of indirection from 'List **'
+c:\users\user\desktop\sadna\sadna\targil.c(224): warning C4024: 'printlist': different types for formal and actual parameter 1
+c:\users\user\desktop\sadna\sadna\targil.c(224): warning C4020: 'printlist': too many actual parameters
+c:\users\user\desktop\sadna\sadna\targil.c(239): warning C4473: 'scanf_s' : not enough arguments passed for format string
+  c:\users\user\desktop\sadna\sadna\targil.c(239): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+  c:\users\user\desktop\sadna\sadna\targil.c(239): note: the missing variadic argument 2 is required by format string '%c'
+  c:\users\user\desktop\sadna\sadna\targil.c(239): note: this argument is used as a buffer size
+c:\users\user\desktop\sadna\sadna\targil.c(245): warning C4473: 'scanf_s' : not enough arguments passed for format string
+  c:\users\user\desktop\sadna\sadna\targil.c(245): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+  c:\users\user\desktop\sadna\sadna\targil.c(245): note: the missing variadic argument 2 is required by format string '%c'
+  c:\users\user\desktop\sadna\sadna\targil.c(245): note: this argument is used as a buffer size
+c:\users\user\desktop\sadna\sadna\targil.c(266): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\user\desktop\sadna\sadna\targil.c(275): warning C4033: 'createCharNode' must return a value
+c:\users\user\desktop\sadna\sadna\targil.c(284): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
+c:\users\user\desktop\sadna\sadna\targil.c(295): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
+c:\users\user\desktop\sadna\sadna\targil.c(296): warning C4133: '=': incompatible types - from 'Char_Node *' to 'node *'
+c:\users\user\desktop\sadna\sadna\targil.c(342): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
+c:\users\user\desktop\sadna\sadna\targil.c(389): warning C4133: '=': incompatible types - from 'node *' to 'Char_Node *'
+c:\users\user\desktop\sadna\sadna\targil.c(409): warning C4047: '=': 'int **' differs in levels of indirection from 'int *'
+c:\users\user\desktop\sadna\sadna\targil.c(698): warning C4047: '=': 'int' differs in levels of indirection from 'void *'
+c:\users\user\desktop\sadna\sadna\targil.c(699): warning C4047: '=': 'int' differs in levels of indirection from 'void *'
+c:\users\user\desktop\sadna\sadna\targil.c(700): warning C4047: '=': 'int' differs in levels of indirection from 'void *'
+c:\users\user\desktop\sadna\sadna\targil.c(725): warning C4047: '=': 'node **' differs in levels of indirection from 'node *'
+c:\users\user\desktop\sadna\sadna\targil.c(740): warning C4047: '=': 'node *' differs in levels of indirection from 'node **'
+c:\users\user\desktop\sadna\sadna\targil.c(756): warning C4133: 'function': incompatible types - from 'node **' to 'List **'
+c:\users\user\desktop\sadna\sadna\targil.c(902): warning C4473: 'scanf_s' : not enough arguments passed for format string
+  c:\users\user\desktop\sadna\sadna\targil.c(902): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+  c:\users\user\desktop\sadna\sadna\targil.c(902): note: the missing variadic argument 2 is required by format string '%c'
+  c:\users\user\desktop\sadna\sadna\targil.c(902): note: this argument is used as a buffer size
+c:\users\user\desktop\sadna\sadna\targil.c(906): warning C4133: '=': incompatible types - from 'node *' to 'list *'
+c:\users\user\desktop\sadna\sadna\targil.c(279): warning C4715: 'createCharNode': not all control paths return a value
   Sadna.vcxproj -> C:\Users\user\Desktop\Sadna\Debug\Sadna.exe

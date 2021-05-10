@@ -18,6 +18,18 @@ typedef struct char_node
 	struct node *next;
 }Char_Node;
 
+typedef struct
+{
+	int data;
+	int i;
+	int j;
+}Data;
+
+typedef struct node
+{
+	Data number;
+	struct node* next;
+}node;
 /* Function declarations */
 
 void Ex1();
@@ -49,6 +61,15 @@ void printlist(List* head);
 void deleteNode(List** head);
 List* creatlist(List** head);
 //List* creatList2(List ** head);
+int createArrayAndList(int** matrixA, int r, int c, node* arry);
+void createThreeArr(int** matrixA, int r, int c, node** arry);
+Data creatThree(Data temp, int num, int i, int j);
+void printlist_ex3(node** aray);
+void deleteList(node** head);
+void deleteNode_ex3(node** head);
+void removeDupList(List** list, int row);
+void deleteList_ex6(List** head);
+void insert_ex6(List** list, int row);
 /* ------------------------------- */
 
 
@@ -121,7 +142,35 @@ void Ex2()
 }
 void Ex3()
 {
-	
+	int** matrixA;
+	node* arry;
+	int rows, cols, max, min, count;
+
+	printf("Enter the number of rows you want:\n");
+	scanf_s("%d", &rows);
+	printf("Enter the number of collums you want:\n");
+	scanf_s("%d", &cols);
+
+	arry = (node*)malloc(sizeof(node));
+
+
+	matrixA = newMatrix(rows, cols);
+
+	insertValue(matrixA, rows, cols);
+	printf("Value of matrixA\n");
+	printMatrix(matrixA, rows, cols);
+
+
+
+	count = createArrayAndList(matrixA, rows, cols, arry);
+
+	printf("the count is %d\n", count);
+
+	printlist(arry);
+
+	freeMatrix(matrixA, rows);
+
+	deleteList(&arry);
 }
 void Ex4()
 {
@@ -158,7 +207,21 @@ void Ex5()
 }
 void Ex6()
 {
+	List* aray;
+	int row;
 
+	aray = NULL;
+
+	printf("Enter number for row\n");
+	scanf_s("%d", &row);
+	rewind(stdin);
+
+	aray = (List*)malloc(row * sizeof(List));
+
+	insert(&aray, row);
+	printf("\n\nThe new arry is:\n");
+	removeDupList(&aray, row);
+	printlist(&aray, row);
 }
 void Ex7()
 {
@@ -601,6 +664,259 @@ List* creatlist(List** head)
 		}
 	}
 	return newlist;
+}
+
+int createArrayAndList(int** matrixA, int r, int c, node* arry)
+{
+	int count, max, min, i, j;
+	node* curr;
+	node* curr_pos;
+	node* curr_temp;
+	count = 0;
+	curr = arry;
+	curr_temp = curr;
+
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			neighborMaxMin(matrixA, &max, &min, i, j, r, c);
+			if (min == matrixA[i][j])
+			{
+				count++;
+
+
+				curr->number = creatThree(curr->number, min, i, j);
+
+				curr_pos = (node*)malloc(sizeof(node));
+
+				curr_temp = curr;
+
+				curr->next = curr_pos;
+				curr = curr->next;
+
+				curr->number.data = NULL;
+				curr->number.i = NULL;
+				curr->number.j = NULL;
+				curr->next = NULL;
+
+			}
+		}
+
+	curr_temp = NULL;
+
+	return count;
+}
+void createThreeArr(int** matrixA, int r, int c, node** arry)
+{
+	int count, max, min, i, j;
+	count = 0;
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			neighborMaxMin(matrixA, &max, &min, i, j, r, c);
+			if (min == matrixA[i][j])
+			{
+				count++;
+			}
+		}
+
+	arry = (node*)malloc(count * sizeof(node));
+}
+
+Data creatThree(Data temp, int num, int i, int j)
+{
+	temp.data = num;
+	temp.i = i;
+	temp.j = j;
+
+	return temp;
+}
+
+void printlist_ex3(node** aray)
+{
+	node* curr_pos;
+	curr_pos = aray;
+
+	printf("num\ti\tj\n");
+
+	while (curr_pos->next)
+	{
+		printf("%d\t%d\t%d\n", curr_pos->number.data, curr_pos->number.i, curr_pos->number.j);
+		curr_pos = curr_pos->next;
+	}
+	printf("\n");
+
+}
+void deleteList(node** head)
+{
+	while (*head != NULL)
+	{
+		deleteNode(head);
+	}
+	*head = NULL;
+}
+
+void deleteNode_ex3(node** head)
+{
+	node* curr;
+	node* delnode;
+
+	curr = *head;
+	if (*head == NULL)
+	{
+		printf("Nothing to delete,the list is empty!!\n");
+	}
+	else if (curr->next == NULL)
+	{
+		//only one element in the list.
+		delnode = curr;
+		*head = NULL;
+		free(delnode);
+	}
+	else
+	{
+		while ((curr->next)->next != NULL)
+		{
+			curr = curr->next;
+		}
+		delnode = curr->next;
+		curr->next = curr->next->next;
+		free(delnode);
+	}
+}
+
+void removeDupList(List** list, int row)
+{
+	List* curr_pos;
+	List* temp_curr;
+	int i, temp;
+
+
+	for (i = 0; i < row; i++)
+	{
+		int temp_arry[26] = { 0 };
+		curr_pos = (*list) + i;
+		temp_curr = curr_pos;
+
+		temp = curr_pos->data;
+		temp_arry[temp - 'a']++;
+
+		curr_pos = curr_pos->next;
+		while (curr_pos)
+		{
+			temp = curr_pos->data;
+			temp_arry[temp - 'a']++;
+			//temp = curr_pos->data;
+			if (temp_arry[temp - 'a'] > 1)
+			{
+				if (curr_pos->next == NULL)
+				{
+					deleteNode(&curr_pos);
+					temp_curr->next = NULL;
+				}
+				else
+				{
+					if (curr_pos->next != NULL)
+						temp_curr->next = curr_pos->next;
+					curr_pos->next = NULL;
+					deleteNode(&curr_pos);
+					curr_pos = temp_curr->next;
+				}
+			}
+			else
+			{
+				curr_pos = curr_pos->next;
+				temp_curr = temp_curr->next;
+			}/*if(curr_pos)
+				curr_pos = curr_pos->next;*/
+
+		}
+	}
+}
+
+void deleteList_ex6(List** head)
+{
+	List* curr;
+	List* delnode;
+
+	curr = *head;
+	if (*head == NULL)
+	{
+		printf("Nothing to delete,the list is empty!!\n");
+	}
+	else if (curr->next == NULL)
+	{
+		//only one element in the list.
+		delnode = curr;
+		*head = NULL;
+		free(delnode);
+	}
+	else
+	{
+		while ((curr->next)->next != NULL)
+		{
+			curr = curr->next;
+		}
+		delnode = curr->next;
+		curr->next = curr->next->next;
+		free(delnode);
+	}
+}
+void printlist_ex6(List** aray, int row)
+{
+	int i;
+	List* curr_pos;
+
+
+	for (i = 0; i < row; i++)
+	{
+		curr_pos = (*aray) + i;
+		while (curr_pos)
+		{
+			printf("%c", curr_pos->data);
+			curr_pos = curr_pos->next;
+		}
+		printf("\n");
+	}
+}
+
+void insert_ex6(List** list, int row)
+{
+	List* curr_list;
+	List* curr_pos;
+	List* curr_prev;
+	curr_list = *list;
+	curr_pos = *list;
+	curr_prev = NULL;
+	int i;
+	char c;
+
+	for (i = 0; i < row; i++)
+	{
+
+
+		do
+		{
+			scanf_s("%c", &c);
+			if (c != '\n')
+			{
+				curr_pos->data = c;
+				curr_pos->next = (node*)malloc(sizeof(node));
+				curr_prev = curr_pos;
+				curr_pos = curr_pos->next;
+				curr_pos->next = NULL;
+
+			}
+		} while (c != '\n');
+
+		curr_prev->next = NULL;
+		curr_list++;
+
+		curr_pos = curr_list;
+	}
+
 }
 //List * creatList2(List ** head)
 //{
