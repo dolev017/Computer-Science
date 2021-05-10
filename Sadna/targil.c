@@ -60,16 +60,21 @@ List* makelist(List* head);
 void printlist(List* head);
 void deleteNode(List** head);
 List* creatlist(List** head);
-//List* creatList2(List ** head);
-int createArrayAndList(int** matrixA, int r, int c, node* arry);
-void createThreeArr(int** matrixA, int r, int c, node** arry);
-Data creatThree(Data temp, int num, int i, int j);
-void printlist_ex3(node** aray);
-void deleteList(node** head);
-void deleteNode_ex3(node** head);
+void creatList2(List ** first, List ** second);
 void removeDupList(List** list, int row);
 void deleteList_ex6(List** head);
+void printlist_ex6(List** aray, int row);
 void insert_ex6(List** list, int row);
+int** newMatrix_ex3(int r, int c);
+void insertValue_ex3(int** a, int r, int c);
+void printMatrix_ex3(int** a, int r, int c);
+void neighborMaxMin_ex3(int** a, int* answerMax, int* answerMin, int i, int j, int lastRow, int lastCol);
+void deleteNode_ex3(node** head);
+void deleteList_ex3(node** head);
+void printlist_ex3(node** aray);
+Data creatThree_ex3(Data temp, int num, int i, int j);
+void createThreeArr_ex3(int** matrixA, int r, int c, node** arry);
+int createArrayAndList_ex3(int** matrixA, int r, int c, node* arry);
 /* ------------------------------- */
 
 
@@ -154,23 +159,23 @@ void Ex3()
 	arry = (node*)malloc(sizeof(node));
 
 
-	matrixA = newMatrix(rows, cols);
+	matrixA = newMatrix_ex3(rows, cols);
 
-	insertValue(matrixA, rows, cols);
+	insertValue_ex3(matrixA, rows, cols);
 	printf("Value of matrixA\n");
-	printMatrix(matrixA, rows, cols);
+	printMatrix_ex3(matrixA, rows, cols);
 
 
 
-	count = createArrayAndList(matrixA, rows, cols, arry);
+	count = createArrayAndList_ex3(matrixA, rows, cols, arry);
 
 	printf("the count is %d\n", count);
 
-	printlist(arry);
+	printlist_ex3(arry);
 
 	freeMatrix(matrixA, rows);
 
-	deleteList(&arry);
+	deleteList_ex3(&arry);
 }
 void Ex4()
 {
@@ -191,18 +196,18 @@ void Ex4()
 }
 void Ex5()
 {
-	//List * list = NULL;
-	//List * new_list;
-	//list = makelist(list);
-	//printf("The original list is:\n");
-	//printlist(list);
-	//printf("\n");
-	//new_list = creatlist2(&list);
-	//printf("The new list is:\n");
-	//printlist(new_list);
-	//printf("\n");
-	//printf("The old list is:\n");
-	//printlist(list);
+	List * list = NULL;
+	List * new_list=NULL;
+	list = makelist(list);
+	printf("The original list is:\n");
+	printlist(list);
+	printf("\n");
+	creatList2(&list,&new_list);
+	printf("The first list is:\n");
+	printlist(new_list);
+	printf("\n");
+	printf("The second list is:\n");
+	printlist(list);
 
 }
 void Ex6()
@@ -218,10 +223,10 @@ void Ex6()
 
 	aray = (List*)malloc(row * sizeof(List));
 
-	insert(&aray, row);
+	insert_ex6(&aray, row);
 	printf("\n\nThe new arry is:\n");
 	removeDupList(&aray, row);
-	printlist(&aray, row);
+	printlist_ex6(&aray, row);
 }
 void Ex7()
 {
@@ -594,6 +599,7 @@ void deleteNode(List** head)
 	}
 }
 
+
 List* creatlist(List** head)
 {
 	List* curr;
@@ -666,127 +672,6 @@ List* creatlist(List** head)
 	return newlist;
 }
 
-int createArrayAndList(int** matrixA, int r, int c, node* arry)
-{
-	int count, max, min, i, j;
-	node* curr;
-	node* curr_pos;
-	node* curr_temp;
-	count = 0;
-	curr = arry;
-	curr_temp = curr;
-
-
-	for (i = 0; i < r; i++)
-		for (j = 0; j < c; j++)
-		{
-			neighborMaxMin(matrixA, &max, &min, i, j, r, c);
-			if (min == matrixA[i][j])
-			{
-				count++;
-
-
-				curr->number = creatThree(curr->number, min, i, j);
-
-				curr_pos = (node*)malloc(sizeof(node));
-
-				curr_temp = curr;
-
-				curr->next = curr_pos;
-				curr = curr->next;
-
-				curr->number.data = NULL;
-				curr->number.i = NULL;
-				curr->number.j = NULL;
-				curr->next = NULL;
-
-			}
-		}
-
-	curr_temp = NULL;
-
-	return count;
-}
-void createThreeArr(int** matrixA, int r, int c, node** arry)
-{
-	int count, max, min, i, j;
-	count = 0;
-
-	for (i = 0; i < r; i++)
-		for (j = 0; j < c; j++)
-		{
-			neighborMaxMin(matrixA, &max, &min, i, j, r, c);
-			if (min == matrixA[i][j])
-			{
-				count++;
-			}
-		}
-
-	arry = (node*)malloc(count * sizeof(node));
-}
-
-Data creatThree(Data temp, int num, int i, int j)
-{
-	temp.data = num;
-	temp.i = i;
-	temp.j = j;
-
-	return temp;
-}
-
-void printlist_ex3(node** aray)
-{
-	node* curr_pos;
-	curr_pos = aray;
-
-	printf("num\ti\tj\n");
-
-	while (curr_pos->next)
-	{
-		printf("%d\t%d\t%d\n", curr_pos->number.data, curr_pos->number.i, curr_pos->number.j);
-		curr_pos = curr_pos->next;
-	}
-	printf("\n");
-
-}
-void deleteList(node** head)
-{
-	while (*head != NULL)
-	{
-		deleteNode(head);
-	}
-	*head = NULL;
-}
-
-void deleteNode_ex3(node** head)
-{
-	node* curr;
-	node* delnode;
-
-	curr = *head;
-	if (*head == NULL)
-	{
-		printf("Nothing to delete,the list is empty!!\n");
-	}
-	else if (curr->next == NULL)
-	{
-		//only one element in the list.
-		delnode = curr;
-		*head = NULL;
-		free(delnode);
-	}
-	else
-	{
-		while ((curr->next)->next != NULL)
-		{
-			curr = curr->next;
-		}
-		delnode = curr->next;
-		curr->next = curr->next->next;
-		free(delnode);
-	}
-}
-
 void removeDupList(List** list, int row)
 {
 	List* curr_pos;
@@ -813,7 +698,7 @@ void removeDupList(List** list, int row)
 			{
 				if (curr_pos->next == NULL)
 				{
-					deleteNode(&curr_pos);
+					deleteList_ex6(&curr_pos);
 					temp_curr->next = NULL;
 				}
 				else
@@ -821,7 +706,7 @@ void removeDupList(List** list, int row)
 					if (curr_pos->next != NULL)
 						temp_curr->next = curr_pos->next;
 					curr_pos->next = NULL;
-					deleteNode(&curr_pos);
+					deleteList_ex6(&curr_pos);
 					curr_pos = temp_curr->next;
 				}
 			}
@@ -918,62 +803,295 @@ void insert_ex6(List** list, int row)
 	}
 
 }
-//List * creatList2(List ** head)
-//{
-//	List * new_list = NULL;
-//	List * curr = *head;
-//	List * temp;
-//	if (curr == NULL)//empty list
-//	{
-//		return new_list;
-//	}
-//
-//	if (curr->next == NULL)// one element in the list
-//	{
-//		new_list = insert(new_list, curr->data);
-//		*head = NULL;
-//		return new_list;
-//	}
-//	if (curr->data > curr->next->data)
-//	{
-//		new_list = insert(new_list, curr->data);
-//		temp = curr;
-//		*head = curr->next;
-//		temp->next = NULL;
-//		curr = *head;
-//	}
-//	while (curr->next != NULL)
-//	{
-//		if (temp->next != NULL)
-//		{
-//			if (curr->data > curr->next->data)
-//			{
-//				if (temp->data > temp->next->data)
-//				{
-//					curr->next = temp->next;
-//					new_list = insert(new_list, temp->next);
-//					curr->next = temp;
-//				}
-//				else
-//				{
-//					curr = curr->next;
-//				}
-//			}
-//			else
-//			{
-//				curr = curr->next;
-//			}
-//		}
-//		else
-//		{
-//			if (curr->data < curr->next->data)
-//			{
-//				temp = curr;
-//				temp = temp->next;
-//				new_list = insert(new_list, temp->next);
-//				curr->next = NULL;
-//			}
-//		}
-//	}
-//	return new_list;
-//}
+void creatList2(List ** first, List ** second)
+{
+	List * temp_first = *first;
+	List * temp_second = *second;
+	List * temp = NULL;
+	if (temp_first == NULL)//empty list
+	{
+		*second = NULL;
+	}
+
+	else
+	{
+		if (temp_first->next == NULL)// one element in the list
+		{
+			*second = NULL;
+		}
+		if (temp_first->data > temp_first->next->data)
+		{
+			temp_second = temp_first;
+			temp_first = temp_first->next;
+			temp_second->next = NULL;
+
+		}
+		while (temp_first->next != NULL)
+		{
+			if (temp_first->next->next != NULL)
+			{
+				if (temp_first->data < temp_first->next->data)
+				{
+					if (temp == NULL)
+					{
+						temp = temp_first;
+					}
+					else
+					{
+						temp = temp_first;
+					}
+					temp_first = temp_first->next;
+					if (temp_first->data > temp_first->next->data)
+					{
+						temp->next = temp_first->next;
+						if (temp_second ==NULL)
+						{
+							temp_second = temp_first;
+						}
+						else
+						{
+							temp_second->next = temp_first;
+							temp_second = temp_second->next;
+						}
+						//temp_second = temp_second->next;
+						temp_first = temp->next;
+						temp_second->next = NULL;
+						/*temp_second = insert(temp_second, temp_first->next->data);
+						temp_first->next = temp_first->next->next->data;
+						temp_second = temp_second->next;
+						temp_first = temp_first->next;*/
+					}
+					else
+					{
+						temp_first = temp_first->next;
+					}
+				}
+				else
+				{
+					temp_first = temp_first->next;
+				}
+			}
+			else
+			{
+				if (temp_first->data < temp_first->next->data)
+				{
+					temp = temp_first;
+					temp_second->next = temp_first->next;
+					temp_first->next = NULL;
+				}
+			}
+		}
+	}
+}
+
+// Ex3 - function
+
+int** newMatrix_ex3(int r, int c)
+{
+	int** a;
+	int i;
+
+	a = (int*)malloc(r * sizeof(int));
+	if (!a)
+		return NULL;
+
+	for (i = 0; i < r; i++)
+	{
+		a[i] = (int*)malloc(c * sizeof(int));
+		if (!a[i])
+		{
+			freeMatrix(a, i);
+			return NULL;
+		}
+	}
+	return a;
+}
+
+void insertValue_ex3(int** a, int r, int c)
+{
+	int i, j;
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			printf("Enter a value for [%d][%d]", i, j);
+			scanf_s("%d", &a[i][j]);
+		}
+	printf("\n\n");
+}
+
+void printMatrix_ex3(int** a, int r, int c)
+{
+	int i, j;
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			printf("[%d][%d]=%d\n\n", i, j, a[i][j]);
+		}
+}
+
+void neighborMaxMin_ex3(int** a, int* answerMax, int* answerMin, int i, int j, int lastRow, int lastCol)
+{
+	int min, max;
+	min = a[i][j];
+	max = 0;
+
+	if (!(i == 0))
+	{
+		if (max < a[i - 1][j])
+			max = a[i - 1][j];
+		if (min >= a[i - 1][j])
+			min = a[i - 1][j];
+	}
+
+	if (!(i == lastRow - 1))
+	{
+		if (max < a[i + 1][j])
+			max = a[i + 1][j];
+		if (min >= a[i + 1][j])
+			min = a[i + 1][j];
+	}
+
+	if (!(j == 0))
+	{
+		if (max < a[i][j - 1])
+			max = a[i][j - 1];
+		if (min >= a[i][j - 1])
+			min = a[i][j - 1];
+	}
+
+	if (!(j == lastCol - 1))
+	{
+		if (max < a[i][j + 1])
+			max = a[i][j + 1];
+		if (min >= a[i][j + 1])
+			min = a[i][j + 1];
+	}
+
+	*answerMax = max;
+	*answerMin = min;
+}
+
+void deleteNode_ex3(node** head)
+{
+	node* curr;
+	node* delnode;
+
+	curr = *head;
+	if (*head == NULL)
+	{
+		printf("Nothing to delete,the list is empty!!\n");
+	}
+	else if (curr->next == NULL)
+	{
+		//only one element in the list.
+		delnode = curr;
+		*head = NULL;
+		free(delnode);
+	}
+	else
+	{
+		while ((curr->next)->next != NULL)
+		{
+			curr = curr->next;
+		}
+		delnode = curr->next;
+		curr->next = curr->next->next;
+		free(delnode);
+	}
+}
+
+void deleteList_ex3(node** head)
+{
+	while (*head != NULL)
+	{
+		deleteNode_ex3(head);
+	}
+	*head = NULL;
+}
+
+void printlist_ex3(node** aray)
+{
+	node* curr_pos;
+	curr_pos = aray;
+
+	printf("num\ti\tj\n");
+
+	while (curr_pos->next)
+	{
+		printf("%d\t%d\t%d\n", curr_pos->number.data, curr_pos->number.i, curr_pos->number.j);
+		curr_pos = curr_pos->next;
+	}
+	printf("\n");
+
+}
+
+Data creatThree_ex3(Data temp, int num, int i, int j)
+{
+	temp.data = num;
+	temp.i = i;
+	temp.j = j;
+
+	return temp;
+}
+
+void createThreeArr_ex3(int** matrixA, int r, int c, node** arry)
+{
+	int count, max, min, i, j;
+	count = 0;
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			neighborMaxMin_ex3(matrixA, &max, &min, i, j, r, c);
+			if (min == matrixA[i][j])
+			{
+				count++;
+			}
+		}
+
+	arry = (node*)malloc(count * sizeof(node));
+}
+
+int createArrayAndList_ex3(int** matrixA, int r, int c, node* arry)
+{
+	int count, max, min, i, j;
+	node* curr;
+	node* curr_pos;
+	node* curr_temp;
+	count = 0;
+	curr = arry;
+	curr_temp = curr;
+
+
+	for (i = 0; i < r; i++)
+		for (j = 0; j < c; j++)
+		{
+			neighborMaxMin_ex3(matrixA, &max, &min, i, j, r, c);
+			if (min == matrixA[i][j])
+			{
+				count++;
+
+
+				curr->number = creatThree_ex3(curr->number, min, i, j);
+
+				curr_pos = (node*)malloc(sizeof(node));
+
+				curr_temp = curr;
+
+				curr->next = curr_pos;
+				curr = curr->next;
+
+				curr->number.data = NULL;
+				curr->number.i = NULL;
+				curr->number.j = NULL;
+				curr->next = NULL;
+
+			}
+		}
+
+	curr_temp = NULL;
+
+	return count;
+}
